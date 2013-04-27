@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  GifViewController.h
 //  Gif Horse
 //
 //  Created by Jeff Carpenter on 1/22/13.
@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface GifViewController : UIViewController
 
-@property (strong, nonatomic) UIWindow *window;
+- (void)fetchAndSetCurrentSequence;
+- (void)storeCurrentSequence;
 
 @end
