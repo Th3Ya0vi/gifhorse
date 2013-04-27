@@ -7,7 +7,8 @@
 //
 
 //#define SERVER_URI @"http://gifhor.se/"
-#define SERVER_URI @"http://localhost:3000/"
+//#define SERVER_URI @"http://localhost:3000/"
+#define SERVER_URI @"http://10.0.1.20:3000/"
 
 #import "GifViewController.h"
 #import "AFNetworking.h"
@@ -29,11 +30,7 @@
 // Unconfirmed
 
 @property (nonatomic, strong) NSMutableDictionary *gifs;
-
 @property (nonatomic, strong) UILabel *currentSequenceLabel;
-@property (nonatomic, strong) NSNumber *currentPage;
-
-@property (nonatomic, strong) NSString *userID;
 
 
 @property BOOL favButtonOn;
@@ -172,9 +169,22 @@
     if (fractionalPage == 2) {
         // Increment self.sequence
         self.sequence += 1;
+        [self storeCurrentSequence];
+
+        // Cycle gifViews forward 1
+        UIWebView *gifViewAtPage0 = [self.gifViews objectAtIndex:0];
+        UIWebView *gifViewAtPage1 = [self.gifViews objectAtIndex:1];
+        UIWebView *gifViewAtPage2 = [self.gifViews objectAtIndex:2];
+        [self.gifViews setObject:gifViewAtPage0 atIndexedSubscript:2];
+        [self.gifViews setObject:gifViewAtPage1 atIndexedSubscript:0];
+        [self.gifViews setObject:gifViewAtPage2 atIndexedSubscript:1];
         
-        // For now, re-display all windows
-        [self refreshAllWindows];
+        // Cycle views forward 1
+        [gifViewAtPage0 setFrame:CGRectMake(self.view.bounds.size.width*2, 0, gifViewAtPage0.frame.size.width, gifViewAtPage0.frame.size.height)];
+        [gifViewAtPage1 setFrame:CGRectMake(self.view.bounds.size.width*0, 0, gifViewAtPage1.frame.size.width, gifViewAtPage1.frame.size.height)];
+        [gifViewAtPage2 setFrame:CGRectMake(self.view.bounds.size.width*1, 0, gifViewAtPage2.frame.size.width, gifViewAtPage2.frame.size.height)];
+
+        [self displayGifInWindow:2 withSequence:self.sequence+1];
         
         // Reset back to middle page
         [self.gifNav setContentOffset:CGPointMake(sender.frame.size.width, 0)];
@@ -183,9 +193,22 @@
         if (self.sequence > 0) {
             // Decrement self.sequence
             self.sequence -= 1;
+            [self storeCurrentSequence];
+
+            // Cycle gifViews backward 1
+            UIWebView *gifViewAtPage0 = [self.gifViews objectAtIndex:0];
+            UIWebView *gifViewAtPage1 = [self.gifViews objectAtIndex:1];
+            UIWebView *gifViewAtPage2 = [self.gifViews objectAtIndex:2];
+            [self.gifViews setObject:gifViewAtPage0 atIndexedSubscript:1];
+            [self.gifViews setObject:gifViewAtPage1 atIndexedSubscript:2];
+            [self.gifViews setObject:gifViewAtPage2 atIndexedSubscript:0];
             
-            // For now, re-display all windows
-            [self refreshAllWindows];
+            // Cycle views backward 1
+            [gifViewAtPage0 setFrame:CGRectMake(self.view.bounds.size.width*1, 0, gifViewAtPage0.frame.size.width, gifViewAtPage0.frame.size.height)];
+            [gifViewAtPage1 setFrame:CGRectMake(self.view.bounds.size.width*2, 0, gifViewAtPage1.frame.size.width, gifViewAtPage1.frame.size.height)];
+            [gifViewAtPage2 setFrame:CGRectMake(self.view.bounds.size.width*0, 0, gifViewAtPage2.frame.size.width, gifViewAtPage2.frame.size.height)];
+            
+            [self displayGifInWindow:0 withSequence:self.sequence-1];
             
             // Reset back to middle page
             [self.gifNav setContentOffset:CGPointMake(sender.frame.size.width, 0)];
@@ -197,70 +220,70 @@
 
 - (void)favButtonWasPressed:(id)sender
 {
-    UIButton *resultButton = (UIButton *)sender;
-    [resultButton setTitle:@"Loading..." forState:UIControlStateNormal];
+//    UIButton *resultButton = (UIButton *)sender;
+//    [resultButton setTitle:@"Loading..." forState:UIControlStateNormal];
+//    
+//    // Activate spinner
+//    NSLog(@"%d", self.favButtonOn);
+//    if (self.favButtonOn == NO) {
+//        
     
-    // Activate spinner
-    NSLog(@"%d", self.favButtonOn);
-    if (self.favButtonOn == NO) {
         
+//        NSString *protoPath = [NSString stringWithFormat:@"/pages/%@/%d/%d", self.userID, (int)self.sequence, 1];
         
-        
-        NSString *protoPath = [NSString stringWithFormat:@"/pages/%@/%d/%d", self.userID, (int)self.sequence, 1];
-        
-        NSURL *afUrl = [NSURL URLWithString:SERVER_URI];
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:afUrl];
+//        NSURL *afUrl = [NSURL URLWithString:SERVER_URI];
+//        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:afUrl];
         
         //        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
         //                                @"height", @"user[height]",
         //                                @"weight", @"user[weight]",
         //                                nil];
-        [httpClient postPath:protoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-            
-            NSMutableDictionary *gifData = [NSMutableDictionary dictionaryWithDictionary:[self.gifs objectForKey:[NSNumber numberWithInt:(int)self.sequence]]];
-            //NSLog(@"%@", gifData);
-            [gifData setValue:@1 forKey:@"favorited"];
-            //NSLog(@"%@", gifData);
-            [self.gifs setValue:gifData forKey:[NSString stringWithFormat:@"%d", (int)self.sequence]];
-            
-            //            NSLog(@"Request Successful, response '%@'", responseStr);
-            [resultButton setTitle:@"Favorited" forState:UIControlStateNormal];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            //            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
-            [resultButton setTitle:@"Error" forState:UIControlStateNormal];
-        }];
-        
-    } else {
-        
-        NSString *protoPath = [NSString stringWithFormat:@"/pages/%@/%d/%d", self.userID, (int)self.sequence, 0];
-        
-        NSURL *afUrl = [NSURL URLWithString:SERVER_URI];
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:afUrl];
+//        [httpClient postPath:protoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//        
+//            NSMutableDictionary *gifData = [NSMutableDictionary dictionaryWithDictionary:[self.gifs objectForKey:[NSNumber numberWithInt:(int)self.sequence]]];
+//            //NSLog(@"%@", gifData);
+//            [gifData setValue:@1 forKey:@"favorited"];
+//            //NSLog(@"%@", gifData);
+//            [self.gifs setValue:gifData forKey:[NSString stringWithFormat:@"%d", (int)self.sequence]];
+//            
+//            //            NSLog(@"Request Successful, response '%@'", responseStr);
+//            [resultButton setTitle:@"Favorited" forState:UIControlStateNormal];
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            //            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+//            [resultButton setTitle:@"Error" forState:UIControlStateNormal];
+//        }];
+//        
+//    } else {
+//        
+//        NSString *protoPath = [NSString stringWithFormat:@"/pages/%@/%d/%d", self.userID, (int)self.sequence, 0];
+//        
+//        NSURL *afUrl = [NSURL URLWithString:SERVER_URI];
+//        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:afUrl];
         
         //        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
         //                                @"height", @"user[height]",
         //                                @"weight", @"user[weight]",
         //                                nil];
-        [httpClient postPath:protoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-            
-            NSMutableDictionary *gifData = [NSMutableDictionary dictionaryWithDictionary:[self.gifs objectForKey:[NSString stringWithFormat:@"%d", (int)self.sequence]]];
-            //NSLog(@"%@", gifData);
-            [gifData setValue:@0 forKey:@"favorited"];
-            //NSLog(@"%@", gifData);
-            [self.gifs setValue:gifData forKey:[NSString stringWithFormat:@"%d", (int)self.sequence]];
-            
-            [resultButton setTitle:@"Favorite" forState:UIControlStateNormal];
-            
-            //            NSDictionary *gifData = [self.gifs objectForKey:self.currentSequence];
-            //            [gifData setValue:@0 forKey:@"favorited"];
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            //            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
-            [resultButton setTitle:@"Error" forState:UIControlStateNormal];
-        }];
-    }
+//        [httpClient postPath:protoPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//            
+//            NSMutableDictionary *gifData = [NSMutableDictionary dictionaryWithDictionary:[self.gifs objectForKey:[NSString stringWithFormat:@"%d", (int)self.sequence]]];
+//            //NSLog(@"%@", gifData);
+//            [gifData setValue:@0 forKey:@"favorited"];
+//            //NSLog(@"%@", gifData);
+//            [self.gifs setValue:gifData forKey:[NSString stringWithFormat:@"%d", (int)self.sequence]];
+//            
+//            [resultButton setTitle:@"Favorite" forState:UIControlStateNormal];
+//            
+//            //            NSDictionary *gifData = [self.gifs objectForKey:self.currentSequence];
+//            //            [gifData setValue:@0 forKey:@"favorited"];
+//            
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            //            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+//            [resultButton setTitle:@"Error" forState:UIControlStateNormal];
+//        }];
+//    }
 }
 
 # pragma mark - Other Stuff
@@ -357,6 +380,8 @@
     // Initialize gifViews
     for (int i=0; i<=2; i++) {
         UIWebView *gifView = [[UIWebView alloc] initWithFrame:CGRectMake(self.gifNav.frame.size.width*i, 0, self.gifNav.frame.size.width, self.gifNav.frame.size.height)];
+        gifView.scrollView.scrollEnabled = NO;
+        gifView.scrollView.bounces = NO;
         [self.gifViews addObject:gifView];
         [self.gifNav addSubview:gifView];
     }

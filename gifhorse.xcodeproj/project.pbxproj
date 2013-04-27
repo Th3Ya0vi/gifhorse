@@ -15,7 +15,6 @@
 		1F03A9BF172C4DDC00D630E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F03A9BE172C4DDC00D630E9 /* AppDelegate.m */; };
 		1F03A9C1172C4DDC00D630E9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F03A9C0172C4DDC00D630E9 /* Default.png */; };
 		1F03A9C3172C4DDC00D630E9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F03A9C2172C4DDC00D630E9 /* Default@2x.png */; };
-		1F03A9C5172C4DDC00D630E9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F03A9C4172C4DDC00D630E9 /* Default-568h@2x.png */; };
 		1F03A9DF172C4DDC00D630E9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F03A9DE172C4DDC00D630E9 /* SenTestingKit.framework */; };
 		1F03A9E0172C4DDC00D630E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F03A9AE172C4DDC00D630E9 /* UIKit.framework */; };
 		1F03A9E1172C4DDC00D630E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F03A9B0172C4DDC00D630E9 /* Foundation.framework */; };
@@ -31,6 +30,8 @@
 		1F03AA12172C500000D630E9 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F03AA07172C500000D630E9 /* AFURLConnectionOperation.m */; };
 		1F03AA13172C500000D630E9 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F03AA09172C500000D630E9 /* AFXMLRequestOperation.m */; };
 		1F03AA14172C500000D630E9 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F03AA0B172C500000D630E9 /* UIImageView+AFNetworking.m */; };
+		1F03AA17172C552600D630E9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F03AA16172C552600D630E9 /* Default-568h@2x.png */; };
+		1F3BDB72172C55A400B92CC8 /* gifHorseNav3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3BDB71172C55A400B92CC8 /* gifHorseNav3@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +57,6 @@
 		1F03A9BE172C4DDC00D630E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1F03A9C0172C4DDC00D630E9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1F03A9C2172C4DDC00D630E9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		1F03A9C4172C4DDC00D630E9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1F03A9DD172C4DDC00D630E9 /* gifhorseTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gifhorseTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F03A9DE172C4DDC00D630E9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		1F03A9E6172C4DDC00D630E9 /* gifhorseTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gifhorseTests-Info.plist"; sourceTree = "<group>"; };
@@ -84,6 +84,8 @@
 		1F03AA09172C500000D630E9 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		1F03AA0A172C500000D630E9 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		1F03AA0B172C500000D630E9 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		1F03AA16172C552600D630E9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1F3BDB71172C55A400B92CC8 /* gifHorseNav3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gifHorseNav3@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,13 +158,14 @@
 		1F03A9B5172C4DDC00D630E9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F3BDB71172C55A400B92CC8 /* gifHorseNav3@2x.png */,
 				1F03A9B6172C4DDC00D630E9 /* gifhorse-Info.plist */,
 				1F03A9B7172C4DDC00D630E9 /* InfoPlist.strings */,
+				1F03AA16172C552600D630E9 /* Default-568h@2x.png */,
 				1F03A9BA172C4DDC00D630E9 /* main.m */,
 				1F03A9BC172C4DDC00D630E9 /* gifhorse-Prefix.pch */,
 				1F03A9C0172C4DDC00D630E9 /* Default.png */,
 				1F03A9C2172C4DDC00D630E9 /* Default@2x.png */,
-				1F03A9C4172C4DDC00D630E9 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -286,7 +289,8 @@
 				1F03A9B9172C4DDC00D630E9 /* InfoPlist.strings in Resources */,
 				1F03A9C1172C4DDC00D630E9 /* Default.png in Resources */,
 				1F03A9C3172C4DDC00D630E9 /* Default@2x.png in Resources */,
-				1F03A9C5172C4DDC00D630E9 /* Default-568h@2x.png in Resources */,
+				1F03AA17172C552600D630E9 /* Default-568h@2x.png in Resources */,
+				1F3BDB72172C55A400B92CC8 /* gifHorseNav3@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +511,7 @@
 				1F03A9F1172C4DDC00D630E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F03A9F2172C4DDC00D630E9 /* Build configuration list for PBXNativeTarget "gifhorseTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +520,7 @@
 				1F03A9F4172C4DDC00D630E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
